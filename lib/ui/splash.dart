@@ -16,7 +16,7 @@ class SplashState extends State<Splash> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_HOME);
+      Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_LOGIN);
     });
   }
 

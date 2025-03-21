@@ -1,5 +1,6 @@
 import 'package:ass_expense/ui/BottomNavigationBar_ui/Nav_Statics.dart';
 import 'package:ass_expense/ui/BottomNavigationBar_ui/nav_home.dart';
+import 'package:ass_expense/ui/login.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,49 +16,62 @@ class HomePageState extends State<HomePage> {
   List<Widget> bottomNavPage=[
     NavHomePage(),
     NavStaticsPage(),
+    Login(),
     NavHomePage(),
-    NavStaticsPage(),
     NavProfilePage(),
 
   ];
   int selectedIndex=0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body:bottomNavPage[selectedIndex],
-        bottomNavigationBar:
-        BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-            unselectedItemColor: Colors.black54,
-            selectedItemColor: Colors.pinkAccent,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart), label: "Statics"),
-          BottomNavigationBarItem(icon: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Colors.pinkAccent,
+    return WillPopScope(
+      onWillPop: ()async{
+        if(selectedIndex!=0){
+          setState(() {
+            selectedIndex=0;
+          });
+          return false;
 
-                borderRadius: BorderRadius.circular(11),
-              ),
-              child: Icon(Icons.add,color: Colors.white,)), label: "Add"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notifications), label: "Notifications"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
-        ],
-        currentIndex: selectedIndex,
-          onTap: (value){
-              selectedIndex=value;
-              setState(() {
+        }
+        return true;
 
-              });
-          },
-        ),
+      },
+      child: Scaffold(
+          body:bottomNavPage[selectedIndex],
+          bottomNavigationBar:
+          BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+              unselectedItemColor: Colors.black54,
+              selectedItemColor: Colors.pinkAccent,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart), label: "Statics"),
+            BottomNavigationBarItem(icon: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: Colors.pinkAccent,
 
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: Icon(Icons.add,color: Colors.white,)), label: "Add"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications), label: "Notifications"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+          ],
+          currentIndex: selectedIndex,
+            onTap: (value){
+                selectedIndex=value;
+                setState(() {
+
+                });
+            },
+          ),
+
+      ),
     );
   }
 }

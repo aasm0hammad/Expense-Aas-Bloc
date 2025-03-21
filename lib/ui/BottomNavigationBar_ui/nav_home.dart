@@ -42,7 +42,7 @@ class NavHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 25,left: 8,right: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -193,8 +193,9 @@ class NavHomePage extends StatelessWidget {
                           subtitle: Text(item['subTitle']),
                           trailing: Text(
                             item['amount'],
+
                             style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14, fontWeight: FontWeight.bold,),
                           ),
                         );
                       }),
