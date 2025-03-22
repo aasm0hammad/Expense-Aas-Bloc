@@ -1,9 +1,17 @@
+import 'package:ass_expense/DataBase/model/users_model.dart';
+import 'package:ass_expense/login_signup/register/user_bloc.dart';
+import 'package:ass_expense/login_signup/register/user_event.dart';
 import 'package:ass_expense/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login.dart';
 
 class Signup extends StatelessWidget {
-  const Signup({super.key});
+
+  TextEditingController nameController=TextEditingController();
+  TextEditingController emailController=TextEditingController();
+  TextEditingController phoneController=TextEditingController();
+  TextEditingController passController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +32,23 @@ class Signup extends StatelessWidget {
             SizedBox(
               height: 100,
             ),
-             user("username", Icon(Icons.person)),
+             user("username", Icon(Icons.person, ),nameController),
             SizedBox(
               height: 20,
             ),
-            user("email", Icon(Icons.email)),
+            user("email", Icon(Icons.email),emailController),
             SizedBox(
               height: 20,
             ),
-            user("password", Icon(Icons.password)),
+            user("Moblie", Icon(Icons.call),phoneController),
             SizedBox(
               height: 20,
             ),
-            user("Confirm password", Icon(Icons.password)),
+            user("password", Icon(Icons.password),passController),
+            SizedBox(
+              height: 20,
+            ),
+            user("Confirm password", Icon(Icons.password),passController),
             SizedBox(
               height: 50,
             ),
@@ -58,7 +70,14 @@ class Signup extends StatelessWidget {
             SizedBox(height: 11,),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_HOME);
+
+                context.read<RegisterBloc>().add(RegisterUserEvent(newUser: UserModel(
+                    uName: nameController.text,
+                    uEmail: emailController.text,
+                    uPhone: phoneController.text,
+                    uPassword: passController.text,
+                    uCreatedAt: DateTime.now().microsecondsSinceEpoch.toString())));
+                Navigator.pop(context);
               },
               child: Text("Sign in with Google"),
               style: ElevatedButton.styleFrom(
@@ -70,6 +89,7 @@ class Signup extends StatelessWidget {
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 70, vertical: 12)),
             ),
+
 
             SizedBox(
               height: 50,
@@ -89,9 +109,10 @@ class Signup extends StatelessWidget {
     );
   }
 
-  Widget user(String s, Icon icon) {
+  Widget user(String s, Icon icon,controller) {
     return TextField(
 
+      controller: controller ,
 
       decoration: InputDecoration(
         hintText: s,
