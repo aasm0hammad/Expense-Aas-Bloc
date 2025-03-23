@@ -48,7 +48,7 @@ class DbHelper{
 
   Future<Database> openDB()async{
     Directory appDocDir=await getApplicationDocumentsDirectory();
-    var path=join(appDocDir.path,"ExpenseDB");
+    var path=join(appDocDir.path,"ExpenseDB.db");
     return openDatabase(path,version: 1, onCreate: (db, v ){
 
       db.execute('''
@@ -58,7 +58,7 @@ class DbHelper{
       $COLUNMN_USER_EMAIL TEXT NOT NULL,
       $COLUNMN_USER_PHONE TEXT NOT NULL,
       $COLUNMN_USER_PASSWORD TEXT NOT NULL,
-      $COLUNMN_USER_CREATED_AT TEXT NOT NULL,
+      $COLUNMN_USER_CREATED_AT TEXT NOT NULL
       )
       
       ''');
@@ -73,7 +73,7 @@ class DbHelper{
       $COLUNMN_EXPENSE_TYPE TEXT NOT NULL,
       $COLUNMN_EXPENSE_DATE TEXT NOT NULL,
       $COLUNMN_EXPENSE_CATEGORY TEXT NOT NULL,
-      $COLUNMN_EXPENSE_CREATED_AT TEXT NOT NULL,
+      $COLUNMN_EXPENSE_CREATED_AT TEXT NOT NULL
       )
       
       ''');

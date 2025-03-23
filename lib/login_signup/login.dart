@@ -51,13 +51,13 @@ class Login extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            InkWell(
+            GestureDetector(
               onTap: (){
                 Navigator.pushNamed(context, AppRoutes.ROUTE_SIGNUP);
               },
               child: Text.rich(TextSpan(text: "Don't have an account? ", children: [
                 TextSpan(
-                    text: "Sign Up", style: TextStyle(color: Colors.pinkAccent))
+                    text: "Signn Up", style: TextStyle(color: Colors.pinkAccent))
               ])),
             )
           ],
