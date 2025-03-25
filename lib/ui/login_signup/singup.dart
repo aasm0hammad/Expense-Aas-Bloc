@@ -1,23 +1,38 @@
 import 'package:ass_expense/DataBase/model/users_model.dart';
-import 'package:ass_expense/login_signup/register/user_bloc.dart';
-import 'package:ass_expense/login_signup/register/user_event.dart';
-import 'package:ass_expense/login_signup/register/user_state.dart';
+
 import 'package:ass_expense/routes/app_routes.dart';
+import 'package:ass_expense/ui/login_signup/register/user_bloc.dart';
+import 'package:ass_expense/ui/login_signup/register/user_event.dart';
+import 'package:ass_expense/ui/login_signup/register/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'login.dart';
 
-class Signup extends StatelessWidget {
+
+class Signup extends StatefulWidget {
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
   TextEditingController nameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
+
   TextEditingController passController = TextEditingController();
+
+  TextEditingController confirmController = TextEditingController();
+
+  bool isLoading= false;
+  bool isPasswordVisible= false;
+  bool isConfirmPasswordVisible= false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
+        padding: const EdgeInsets.only(top: 50, left: 16, right: 16),
         child: Column(
           children: [
             Center(
@@ -30,62 +45,69 @@ class Signup extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             SizedBox(
-              height: 100,
+              height: 50,
             ),
             user(
                 "username",
                 Icon(
                   Icons.person,
                 ),
-                nameController),
+                nameController,
+                false),
             SizedBox(
               height: 20,
             ),
-            user("email", Icon(Icons.email), emailController),
+            user("email", Icon(Icons.email), emailController, false),
             SizedBox(
               height: 20,
             ),
-            user("Moblie", Icon(Icons.call), phoneController),
+            user("Moblie", Icon(Icons.call), phoneController, false),
             SizedBox(
               height: 20,
             ),
-            user("password", Icon(Icons.password), passController),
+            user("password", Icon(Icons.password), passController, isPasswordVisible,
+                suffixIcon: InkWell(
+                    onTap: (){
+                      setState(() {
+                        isPasswordVisible= !isPasswordVisible;
+                      });
+                    },
+                    child: isPasswordVisible?Icon(Icons.visibility):Icon(Icons.visibility_off))),
             SizedBox(
               height: 20,
             ),
-            user("Confirm password", Icon(Icons.password), passController),
+            user("Confirm password", Icon(Icons.password), confirmController, isConfirmPasswordVisible,
+                suffixIcon: InkWell(
+                    onTap: (){
+                      setState(() {
+                        isConfirmPasswordVisible= !isConfirmPasswordVisible;
+                      });
+                    },
+                    child: isConfirmPasswordVisible?Icon(Icons.visibility):Icon(Icons.visibility_off))),
             SizedBox(
               height: 50,
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_HOME);
-              },
-              child: Text("Sign Up"),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(11),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 12)),
-            ),
-            SizedBox(
-              height: 11,
-            ),
-            Text("OR"),
-            SizedBox(
-              height: 11,
-            ),
+
             BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
-                if (state is RegisterLoadingState) {}
-                if (state is RegisterFailureState) {
+                if (state is RegisterLoadingState) {
+                  isLoading =true;
+                  setState(() {
 
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+                  });
 
                 }
+                if (state is RegisterFailureState) {
+
+                  isLoading =false;
+                  setState(() {
+
+                  });
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(state.errorMsg)));
+                }
                 if (state is RegisterSuccessState) {
+                  isLoading =false;
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Register Successful...")));
@@ -103,19 +125,44 @@ class Signup extends StatelessWidget {
                               .microsecondsSinceEpoch
                               .toString())));
                 },
-                child: Text("Sign in with Google"),
+                child:isLoading? Row(
+                  children: [
+                    CircularProgressIndicator(),
+                    Text("Registering...")
+                  ],
+                ) :Text("Sign Up"),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.pinkAccent,
+                    backgroundColor: Colors.pinkAccent,
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(11),
-                        side: BorderSide(color: Colors.pinkAccent)),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 70, vertical: 12)),
+                      borderRadius: BorderRadius.circular(11),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 100, vertical: 12)),
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 11,
+            ),
+            Text("OR"),
+            SizedBox(
+              height: 11,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.ROUTE_HOME);
+              },
+              child: Text("Sign in with Google"),
+              style:ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.pinkAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(11),
+                      side: BorderSide(color: Colors.pinkAccent)),
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 70, vertical: 12)),
+            ),
+            SizedBox(
+              height: 30,
             ),
             InkWell(
               onTap: () {
@@ -135,13 +182,16 @@ class Signup extends StatelessWidget {
     );
   }
 
-  Widget user(String s, Icon icon, controller) {
+  Widget user(String s, Icon preIcon, controller, bool obscureText,
+      {Widget? suffixIcon}) {
     return TextField(
+      obscureText: obscureText,
       controller: controller,
       decoration: InputDecoration(
         hintText: s,
+        suffixIcon: suffixIcon,
         hintStyle: TextStyle(color: Colors.black),
-        prefixIcon: icon,
+        prefixIcon: preIcon,
         filled: true,
         fillColor: Color(0xffF0E4F2),
         focusedBorder: OutlineInputBorder(

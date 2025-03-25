@@ -1,6 +1,7 @@
-import 'package:ass_expense/login_signup/login.dart';
-import 'package:ass_expense/login_signup/singup.dart';
+
 import 'package:ass_expense/ui/home_page.dart';
+import 'package:ass_expense/ui/login_signup/login.dart';
+import 'package:ass_expense/ui/login_signup/singup.dart';
 
 import 'package:ass_expense/ui/splash.dart';
 import 'package:flutter/cupertino.dart';

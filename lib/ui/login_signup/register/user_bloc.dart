@@ -1,8 +1,8 @@
 
 
 import 'package:ass_expense/DataBase/local/DbHelper.dart';
-import 'package:ass_expense/login_signup/register/user_event.dart';
-import 'package:ass_expense/login_signup/register/user_state.dart';
+import 'package:ass_expense/ui/login_signup/register/user_event.dart';
+import 'package:ass_expense/ui/login_signup/register/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent,RegisterState>{
