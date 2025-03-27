@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Signup extends StatefulWidget {
+  const Signup({super.key});
+
   @override
   State<Signup> createState() => _SignupState();
 }
@@ -31,10 +33,16 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 50, left: 16, right: 16),
-        child: Form(
-          key: formKey,
+      body: Form(
+        key: formKey,
+        child: Container(
+          padding: const EdgeInsets.only(top: 50, left: 16, right: 16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors:[Color(0xff6674D3), Color(0xffE78BBC),])
+          ),
           child: Column(
             children: [
               Center(
@@ -94,20 +102,20 @@ class _SignupState extends State<Signup> {
                 height: 20,
               ),
               user("password", Icon(Icons.password), passController,
-                  isPasswordVisible,
+                  !isPasswordVisible,
                   suffixIcon: InkWell(
                       onTap: () {
                         setState(() {
                           isPasswordVisible = !isPasswordVisible;
                         });
                       },
-                      child: isPasswordVisible
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off)), validator: (value) {
+                      child: !isPasswordVisible
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.visibility)), validator: (value) {
                 if (value!.isEmpty) {
                   return 'Password is required!..';
                 } else if (!RegExp(
-                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$')
                     .hasMatch(value)) {
                   return "Please include Minimum 1 Upper case\nMinimum 1 lowercase\nMinimum 1 Numeric Number\nMinimum 1 Special Character";
                 } else {
@@ -121,7 +129,7 @@ class _SignupState extends State<Signup> {
                 "Confirm password",
                 Icon(Icons.password),
                 confirmController,
-                isConfirmPasswordVisible,
+                !isConfirmPasswordVisible,
                 suffixIcon: InkWell(
                     onTap: () {
                       setState(() {
@@ -177,14 +185,7 @@ class _SignupState extends State<Signup> {
                                   .toString())));
                     }
                   },
-                  child: isLoading
-                      ? Row(
-                          children: [
-                            CircularProgressIndicator(),
-                            Text("Registering...")
-                          ],
-                        )
-                      : Text("Sign Up"),
+
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pinkAccent,
                       foregroundColor: Colors.white,
@@ -193,6 +194,14 @@ class _SignupState extends State<Signup> {
                       ),
                       padding:
                           EdgeInsets.symmetric(horizontal: 100, vertical: 12)),
+                  child: isLoading
+                      ? Row(
+                    children: [
+                      CircularProgressIndicator(),
+                      Text("Registering...")
+                    ],
+                  )
+                      : Text("Sign Up"),
                 ),
               ),
               SizedBox(
@@ -206,7 +215,7 @@ class _SignupState extends State<Signup> {
                 onPressed: () {
                   Navigator.pushNamed(context, AppRoutes.ROUTE_HOME);
                 },
-                child: Text("Sign in with Google"),
+
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.pinkAccent,
@@ -215,6 +224,7 @@ class _SignupState extends State<Signup> {
                         side: BorderSide(color: Colors.pinkAccent)),
                     padding:
                         EdgeInsets.symmetric(horizontal: 70, vertical: 12)),
+                child: Text("Sign in with Google"),
               ),
               SizedBox(
                 height: 30,
@@ -245,6 +255,8 @@ class _SignupState extends State<Signup> {
       obscureText: obscureText,
       controller: controller,
       decoration: InputDecoration(
+errorStyle: TextStyle(color: Colors.redAccent,fontSize: 15),
+
         hintText: s,
         suffixIcon: suffixIcon,
         hintStyle: TextStyle(color: Colors.black),
