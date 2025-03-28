@@ -90,14 +90,13 @@ class DbHelper {
 
   /// authenticate
   Future<bool> authenticate({
-    String email = '',
+    String email='',
     String phone = '',
     required String password,
-    bool isEmail = true,
+   bool isEmail = false,
   }) async {
     Database db = await getDB();
-    var mData = isEmail
-        ? await db.query(TABLE_USERS,
+    var mData =isEmail? await db.query(TABLE_USERS,
             where: "$COLUNMN_USER_EMAIL=? and $COLUNMN_USER_PASSWORD=?",
             whereArgs: [email, password])
         : await db.query(TABLE_USERS,

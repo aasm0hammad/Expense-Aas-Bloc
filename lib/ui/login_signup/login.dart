@@ -1,5 +1,6 @@
 import 'package:ass_expense/routes/app_routes.dart';
 import 'package:ass_expense/ui/BottomNavigationBar_ui/nav_home.dart';
+import 'package:ass_expense/ui/home_page.dart';
 import 'package:ass_expense/ui/login_signup/login/login_bloc.dart';
 import 'package:ass_expense/ui/login_signup/login/login_event.dart';
 import 'package:ass_expense/ui/login_signup/login/login_state.dart';
@@ -16,11 +17,25 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  TextEditingController emailController = TextEditingController();
+  TextEditingController loginController = TextEditingController();
 
   TextEditingController passController = TextEditingController();
 
   bool isLoading =false;
+  bool isEmailRegExp(String input){
+    final emailRegExp=RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    return emailRegExp.hasMatch(input);
+  }
+  bool isMobNoRegExp(String input){
+    final mobNo=  RegExp(r"^[6-9]\d{9}$");
+    return mobNo.hasMatch(input);
+  }
+  bool isPass(String input){
+    final pass=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
+    return pass.hasMatch(input);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +56,11 @@ class _LoginState extends State<Login> {
       SizedBox(
         height: 120,
       ),
-      user("username", Icon(Icons.person), emailController),
+      user("Email or Phone Number", Icon(Icons.person), loginController),
       SizedBox(
         height: 20,
       ),
-      user("password", Icon(Icons.password), passController),
+      user("password", Icon(Icons.password), passController,),
       SizedBox(
         height: 100,
       ),
@@ -68,15 +83,41 @@ class _LoginState extends State<Login> {
             }
             if (state is LoginSuccessState) {
               isLoading=false;
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>NavHomePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Login Successful")));
             }
           },
           child: ElevatedButton(
-          onPressed: () async
-      {
-       context.read<LoginBloc>().add(AuthenticateUserEvent(email: emailController.text,pass: passController.text,));
+          onPressed: () {
+            String loginInput= loginController.text;
+            String passInput=passController.text;
+
+            String? email;
+            String? mobNo;
+            String pass;
+            bool isEmail=true;
+
+            if(isEmailRegExp(loginInput)){
+              email=loginInput;
+              isEmail=true;
+            }else if(isMobNoRegExp(loginInput)){
+
+              mobNo=loginInput;
+              isEmail=false;
+
+
+            }else{
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid email or phone number")));
+              return;
+            }
+            if(isPass(passInput)){
+              pass=passInput;
+            }else{
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid password")));
+              return;
+            }
+       context.read<LoginBloc>().add(AuthenticateUserEvent(email:email,mobNo:mobNo,pass: passController.text,isEmail: isEmail));
       },
       child: Text("Login"),
       style: ElevatedButton.styleFrom(

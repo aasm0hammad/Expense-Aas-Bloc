@@ -9,8 +9,9 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
      on<AuthenticateUserEvent>((event,emit)async{
 
        emit(LoginLoadingState());
-       bool check=await dbHelper.authenticate(password: event.pass,email: event.email!,isEmail: event.isEmail,phone: event.mobNo!);
 
+
+       bool check= await dbHelper.authenticate(email:event.email??'',password: event.pass,phone: event.mobNo??'',isEmail: event.isEmail);
        if(check){
          emit(LoginSuccessState());
        }else{
