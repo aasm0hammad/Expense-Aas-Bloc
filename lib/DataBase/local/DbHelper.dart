@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ass_expense/DataBase/model/users_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
@@ -102,6 +103,12 @@ class DbHelper {
         : await db.query(TABLE_USERS,
             where: '$COLUNMN_USER_PHONE=? and $COLUNMN_USER_PASSWORD=?',
             whereArgs: [phone, password]);
+
+    if(mData.isNotEmpty){
+
+      SharedPreferences pref= await  SharedPreferences.getInstance();
+      pref.setInt("key", UserModel.fromMap(mData[0]).uId??0);
+    }
 
     return mData.isNotEmpty;
   }
