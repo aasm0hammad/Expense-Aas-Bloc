@@ -1,3 +1,4 @@
+import 'package:ass_expense/domain/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -25,7 +26,45 @@ class AddExpense extends StatelessWidget {
               SizedBox(
                 height: 11,
               ),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              child: GridView.builder(
+                                  gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 4),
+                                  itemCount: AppConstants.mCat.length,
+                                  itemBuilder: (_, index) {
+                                    
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 11),
+                                      child: Column(
+                                        children: [
+                                          Image.asset(AppConstants.mCat[index].imgPath,width: 50,height: 40,),
+                                          Text(AppConstants.mCat[index].name),
 
+                                        ],
+                                      ),
+                                    );
+
+                                    
+
+
+
+                                  }),
+                            );
+                          });
+                    },
+                    child: Text("Choose Category"),
+                    style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder())),
+              ),
             ],
           )),
     );
