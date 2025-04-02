@@ -1,6 +1,7 @@
 import 'package:ass_expense/domain/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 
 class AddExpense extends StatefulWidget {
@@ -13,6 +14,8 @@ class _AddExpenseState extends State<AddExpense> {
   int selectedCatIndex= -1;
   List<String> mExpenseType= ['Debit','Credit'];
   String selectedType='Debit';
+  DateTime?  selectedDateTime;
+  DateFormat df= DateFormat.yMMMEd();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,11 +101,42 @@ class _AddExpenseState extends State<AddExpense> {
                 dropdownMenuEntries: mExpenseType.map((element){
                   return DropdownMenuEntry(value: element, label: element);
                 }).toList(),),
-             
-             
-             
+              SizedBox(height: 11,),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: OutlinedButton(
 
-             /* DropdownButton(
+                  onPressed: ()async{
+                  await showDatePicker(
+                      context: context,
+                      firstDate: DateTime.now().subtract(Duration(days: 31)),
+                      lastDate: DateTime.now());
+                }, style:OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  )
+                ),
+                    child: Text(df.format(selectedDateTime?? DateTime.now()) ,
+                ),),
+              ),
+
+
+              SizedBox(height: 11,),
+              ElevatedButton(onPressed: (){}, child: Text("Add Expense"),
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent,
+                  foregroundColor: Colors.white,
+
+                  minimumSize: Size(double.infinity, 56),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                )
+
+              ),)
+
+
+              /* DropdownButton(
                   value: selectedType,
                   items: mExpenseType.map((element){
 
