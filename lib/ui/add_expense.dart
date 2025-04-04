@@ -1,6 +1,10 @@
+import 'package:ass_expense/DataBase/model/expense_model.dart';
 import 'package:ass_expense/domain/app_constants.dart';
+import 'package:ass_expense/ui/login_signup/expense/expense_bloc.dart';
+import 'package:ass_expense/ui/login_signup/expense/expense_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 
@@ -123,7 +127,17 @@ class _AddExpenseState extends State<AddExpense> {
 
 
               SizedBox(height: 11,),
-              ElevatedButton(onPressed: (){}, child: Text("Add Expense"),
+              ElevatedButton(onPressed: (){
+                context.read<ExpenseBloc>().add(
+                  AddExpenseEvent(newExp: ExpenseModel(
+                      eTitle: "eTitle",
+                      eDesc: "eDesc",
+                      eAmt: 45,
+                      eBal: 78,
+                      eCreatedAt: "eCreatedAt", eType: "eType", eCatId: 1)));
+
+
+              }, child: Text("Add Expense"),
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,
                   foregroundColor: Colors.white,

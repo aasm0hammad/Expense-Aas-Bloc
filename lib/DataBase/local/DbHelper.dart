@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:ass_expense/DataBase/model/expense_model.dart';
 import 'package:ass_expense/DataBase/model/users_model.dart';
+import 'package:ass_expense/domain/app_constants.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,4 +114,33 @@ class DbHelper {
 
     return mData.isNotEmpty;
   }
+
+  Future<bool> addExpense ( {required ExpenseModel newExpense} )async{
+    Database db=await getDB();
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    int uid=pref.getInt('key')??0;
+
+    newExpense.uId= uid;
+
+    int rowEffected=await db.insert(TABLE_EXPENSE, newExpense.toMap());
+    return rowEffected>0;
+
+  }
+
+  Future<List<ExpenseModel>> fetchAllExpense()async{
+    Database db= await getDB();
+
+    List<Map<String,dynamic>> mExp=await db.query(TABLE_EXPENSE);
+
+    List<ExpenseModel> allExp=[];
+
+    for(Map<String,dynamic> eachExp in mExp){
+
+      allExp.add(ExpenseModel.fromMap(eachExp));
+    }
+
+    return allExp;
+
+  }
+
 }
