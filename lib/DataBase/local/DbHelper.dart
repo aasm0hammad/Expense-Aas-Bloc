@@ -33,7 +33,6 @@ class DbHelper {
   static const String COLUNMN_EXPENSE_CATEGORY = 'eCATE_Id';
   static const String COLUNMN_EXPENSE_TYPE = 'eType';
   static const String COLUNMN_EXPENSE_BALANCE = 'eBal';
-  static const String COLUNMN_EXPENSE_DATE = 'eDate';
   static const String COLUNMN_EXPENSE_CREATED_AT = 'eCREATED';
 
   Database? _db;
@@ -67,9 +66,9 @@ class DbHelper {
       $COLUNMN_EXPENSE_AMT REAL NOT NULL,
       $COLUNMN_EXPENSE_BALANCE REAL,
       $COLUNMN_EXPENSE_TYPE TEXT NOT NULL,
-      $COLUNMN_EXPENSE_DATE TEXT NOT NULL,
-      $COLUNMN_EXPENSE_CATEGORY TEXT NOT NULL,
-      $COLUNMN_EXPENSE_CREATED_AT TEXT NOT NULL
+      $COLUNMN_EXPENSE_CREATED_AT TEXT NOT NULL,
+      $COLUNMN_EXPENSE_CATEGORY TEXT NOT NULL
+      
       )
       
       ''');
@@ -120,7 +119,7 @@ class DbHelper {
     SharedPreferences pref=await SharedPreferences.getInstance();
     int uid=pref.getInt('key')??0;
 
-    newExpense.uId= uid;
+    newExpense.uId= uid.toString();
 
     int rowEffected=await db.insert(TABLE_EXPENSE, newExpense.toMap());
     return rowEffected>0;

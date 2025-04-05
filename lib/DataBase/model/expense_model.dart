@@ -2,14 +2,14 @@ import 'package:ass_expense/DataBase/local/DbHelper.dart';
 
 class ExpenseModel {
   int? eId;
-  int? uId;
+  String? uId;
   String eTitle;
   String eDesc;
   num eAmt;
   num eBal;
   String eCreatedAt;
   String eType;
-  int eCatId;
+  String eCatId;
 
   ExpenseModel({this.eId,
      this.uId,
@@ -36,13 +36,14 @@ class ExpenseModel {
 
   Map<String, dynamic> toMap() {
     return {
-      DbHelper.COLUNMN_EXPENSE_USER_ID: eTitle,
+      DbHelper.COLUNMN_EXPENSE_USER_ID:uId,
+      DbHelper.COLUNMN_EXPENSE_TITLE: eTitle,
       DbHelper.COLUNMN_EXPENSE_DESC: eDesc,
       DbHelper.COLUNMN_EXPENSE_AMT: eAmt,
       DbHelper.COLUNMN_EXPENSE_BALANCE: eBal,
       DbHelper.COLUNMN_EXPENSE_CREATED_AT: eCreatedAt,
       DbHelper.COLUNMN_EXPENSE_TYPE: eType,
-      DbHelper.COLUNMN_EXPENSE_CATEGORY: eType,
+      DbHelper.COLUNMN_EXPENSE_CATEGORY: eCatId,
     };
   }
 }
