@@ -18,9 +18,9 @@ class HomePageState extends State<HomePage> {
   List<Widget> bottomNavPage=[
     NavHomePage(),
     NavStaticsPage(),
-
     NavHomePage(),
-    NavProfilePage(),
+    NavHomePage(),
+    Login(),
 
   ];
   int selectedIndex=0;

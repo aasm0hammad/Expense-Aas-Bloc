@@ -29,6 +29,14 @@ class ExpenseBloc extends Bloc<ExpenseEvent,ExpenseState>{
 
 
     });
+    on<GetInitialExpenseEvent>((event,emit)async{
+      emit(ExpenseLoadingState());
+
+      List<ExpenseModel> allExp= await dbHelper.fetchAllExpense();
+      emit(ExpenseSuccessState(allExpense: allExp));
+
+
+    });
 
 
 

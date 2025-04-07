@@ -2,6 +2,7 @@ import 'package:ass_expense/DataBase/model/expense_model.dart';
 import 'package:ass_expense/domain/app_constants.dart';
 import 'package:ass_expense/ui/login_signup/expense/expense_bloc.dart';
 import 'package:ass_expense/ui/login_signup/expense/expense_event.dart';
+import 'package:ass_expense/ui/login_signup/expense/expense_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,11 +26,14 @@ class _AddExpenseState extends State<AddExpense> {
   DateFormat df= DateFormat.yMMMEd();
   final formKey=GlobalKey<FormState>();
 
+  bool isLoading =false;
+
 
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Scaffold(
         appBar: AppBar(
           title: Text("Add Expense"),
@@ -159,35 +163,52 @@ class _AddExpenseState extends State<AddExpense> {
 
 
                 SizedBox(height: 11,),
-                ElevatedButton(onPressed: (){
-                  if(formKey.currentState!.validate()){
-                  if(selectedCatIndex!=-1) {
-                    context.read<ExpenseBloc>().add(
-                        AddExpenseEvent(newExp: ExpenseModel(
+                BlocListener<ExpenseBloc,ExpenseState>(
+                  listener: (context,state){
 
-                            eTitle: titleController.text,
-                            eDesc: descController.text,
+                    if(state is ExpenseSuccessState){
+                      isLoading=false;
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Expense Successful Add!")));
+                      setState(() {
 
-                            eAmt: double.parse(amtController.text),
-                             eBal: 0,
-                            eCreatedAt: (selectedDateTime?? DateTime.now()).microsecondsSinceEpoch.toString(),
-                            eType: selectedType,
-                            eCatId: AppConstants.mCat[selectedCatIndex].id.toString())));
-                    Navigator.pop(context);
-                  }}
+                      });
+
+                    }
+
+                  },
+                  child: ElevatedButton(onPressed: (){
+                    if(formKey.currentState!.validate()){
+                    if(selectedCatIndex!=-1) {
+                      context.read<ExpenseBloc>().add(
+                          AddExpenseEvent(newExp: ExpenseModel(
+
+                              eTitle: titleController.text,
+                              eDesc: descController.text,
+
+                              eAmt: double.parse(amtController.text),
+                              eBal: 0,
+                              eCreatedAt: (selectedDateTime ?? DateTime.now())
+                                  .microsecondsSinceEpoch.toString(),
+                              eType: selectedType,
+                              eCatId: AppConstants.mCat[selectedCatIndex].id
+                                  .toString())));
+                    }
+                    }
 
 
-                }, child: Text("Add Expense"),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: Colors.pinkAccent,
-                    foregroundColor: Colors.white,
+                  }, child: Text("Add Expense"),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.pinkAccent,
+                      foregroundColor: Colors.white,
 
-                    minimumSize: Size(double.infinity, 56),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  )
+                      minimumSize: Size(double.infinity, 56),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    )
 
-                ),)
+                  ),),
+                )
 
 
                 /* DropdownButton(
