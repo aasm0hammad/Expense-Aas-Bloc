@@ -15,7 +15,7 @@ class NavHomePage extends StatefulWidget {
 
 class _NavHomePageState extends State<NavHomePage> {
 
-  List<FilterExpenseModel>  allExpenses=[];
+  List<FilterExpenseModel>  allFilteredExpenses=[];
   DateFormat df=DateFormat.yMMMd();
   @override
   void initState() {
@@ -269,11 +269,40 @@ class _NavHomePageState extends State<NavHomePage> {
     ///data wise
     for(ExpenseModel eachExp in allExpenses){
       String date= df.format(DateTime.fromMicrosecondsSinceEpoch(int.parse(eachExp.eCreatedAt)));
-      if(!uniqueDates.contains(date)){
+       if(!uniqueDates.contains(date)){
         uniqueDates.add(date);
       }
     }
     print(uniqueDates);
+    for(String eachDate in uniqueDates){
+      num eachDateTotalAmt=0.0;
+      List<ExpenseModel> eachDateExpenses=[];
+      for(ExpenseModel eachExp in allExpenses) {
+        String date = df.format(
+            DateTime.fromMicrosecondsSinceEpoch(int.parse(eachExp.eCreatedAt)));
+
+
+        if(eachDate==date){
+          eachDateExpenses.add(eachExp);
+          if(eachExp.eType=='Debit'){
+            eachDateTotalAmt -=eachExp.eAmt;
+
+          }else{
+            eachDateTotalAmt += eachExp.eAmt;
+          }
+
+        }
+      }
+
+      allFilteredExpenses.add(FilterExpenseModel(
+          type: eachDate,
+          totalAmt: eachDateTotalAmt,
+          mExpenses: eachDateExpenses));
+    }
+
+    print(allFilteredExpenses[0].mExpenses[0].eAmt);
+    
+
 
   }
 }
