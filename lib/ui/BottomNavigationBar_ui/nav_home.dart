@@ -15,16 +15,16 @@ class NavHomePage extends StatefulWidget {
 
 class _NavHomePageState extends State<NavHomePage> {
 
-  List<FilterExpenseModel>  allFilteredExpenses=[];
-  DateFormat df=DateFormat.yMMMd();
+  List<FilterExpenseModel> allFilteredExpenses = [];
+  DateFormat df = DateFormat.yMMMd();
+
   @override
   void initState() {
-
     super.initState();
     context.read<ExpenseBloc>().add(GetInitialExpenseEvent());
   }
 
-  final List<Map<String, dynamic>> mData = [
+  /*final List<Map<String, dynamic>> mData = [
     {
       'date': 'Tuesday, 14',
       'total': "-\$1380",
@@ -55,242 +55,257 @@ class _NavHomePageState extends State<NavHomePage> {
         },
       ]
     }
-  ];
+  ];*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: BlocBuilder<ExpenseBloc,ExpenseState>(
-                builder: (context, state) {
-                  if(state is ExpenseLoadingState){
-                    return Center(child: CircularProgressIndicator(),);
-
-                  }
-                  if(state is ExpenseFailureState){
-
-                    return Center(
-                      child: Text("${state.errorMsg}"),
-                    );
-                  }
+      body: SafeArea(
+        child: BlocBuilder<ExpenseBloc, ExpenseState>(
+            builder: (context, state) {
+              if (state is ExpenseLoadingState) {
+                return Center(child: CircularProgressIndicator(),);
+              }
+              if (state is ExpenseFailureState) {
+                return Center(
+                  child: Text("${state.errorMsg}"),
+                );
+              }
 
 
-                  if(state is ExpenseSuccessState){
-                    /// Filter data here
-                    filterExpenseByType(allExpenses: state.allExpense);
+              if (state is ExpenseSuccessState) {
+                /// Filter data here
+                filterExpenseByType(allExpenses: state.allExpense);
 
 
-                    return SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 25,left: 8,right: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 25, left: 8, right: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Image.asset('assets/images/logo_monety.png'),
-                                    Text(
-                                      'Monety',
-                                      style: TextStyle( fontSize: 16,fontFamily:"Poppins" ),
-                                    )
-                                  ],
-                                ),
-                                Icon(Icons.search),
+                                Image.asset('assets/images/logo_monety.png'),
+                                Text(
+                                  'Monety',
+                                  style: TextStyle(
+                                      fontSize: 16, fontFamily: "Poppins"),
+                                )
                               ],
                             ),
-                            SizedBox(
-                              height: 11,
-                            ),
+                            Icon(Icons.search),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 11,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    ClipOval(
-                                      child: Image.asset(
-                                        "assets/images/profile.png",
-                                        height: 40,
-                                        width: 40,
-                                      ),
+                                ClipOval(
+                                  child: Image.asset(
+                                    "assets/images/profile.png",
+                                    height: 40,
+                                    width: 40,
+                                  ),
 
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Aas WebTech",style: TextStyle(color: Colors.grey,fontSize: 11),),
-                                        Text("Flutter Developer",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),)
-                                      ],
-                                    )
-                                  ],
                                 ),
-
-                                Container(
-                                  height: 20,
-                                  width: 100,
-                                  color: Colors.grey,
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Aas WebTech", style: TextStyle(
+                                        color: Colors.grey, fontSize: 11),),
+                                    Text("Flutter Developer", style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),)
+                                  ],
                                 )
                               ],
                             ),
 
-                            SizedBox(
-                              height: 16,
-                            ),
-
                             Container(
+                              height: 20,
+                              width: 100,
+                              color: Colors.grey,
+                            )
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 16,
+                        ),
+
+                        Container(
 
 
-                              height:100 ,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(11),
-                                color: Color(0xff6674D3),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                          height: 100,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Color(0xff6674D3),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Expense Total", style: TextStyle(
+                                        color: Colors.white, fontSize: 10),),
+                                    Text("\$3,734", style: TextStyle(
+                                        fontSize: 25, color: Colors.white),),
+                                    Row(
                                       children: [
-                                        Text("Expense Total",style: TextStyle(color: Colors.white,fontSize: 10),),
-                                        Text("\$3,734",style: TextStyle(fontSize: 25,color: Colors.white),),
-                                        Row(
-                                          children: [
-                                            Text('+\$240',style: TextStyle(backgroundColor: Colors.red,color: Colors.white),),
-                                            SizedBox(width: 8,),
-                                            Text("than last Months",style: TextStyle(color: Colors.white),),
-                                          ],
-                                        )
+                                        Text('+\$240', style: TextStyle(
+                                            backgroundColor: Colors.red,
+                                            color: Colors.white),),
+                                        SizedBox(width: 8,),
+                                        Text("than last Months",
+                                          style: TextStyle(
+                                              color: Colors.white),),
                                       ],
-                                    ),
-                                  ),
-                                  ClipRRect(
-
-                                    child:Image.asset("assets/images/img.png",) ,
-                                    borderRadius: BorderRadius.circular(11),
-                                  )
-
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 11,),
+                              ClipRRect(
 
-                            Text("Expense List",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
-                            SizedBox(height: 16,),
+                                child: Image.asset("assets/images/img.png",),
+                                borderRadius: BorderRadius.circular(11),
+                              )
 
-                            Column(
-                              children: mData.map((data) {
-                                return Container(
-                                  padding: EdgeInsets.all(15),
-                                  margin: EdgeInsets.only(bottom: 16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(11),
-                                    border: Border.all(color: Colors.grey.shade300, width: 1),
-                                  ),
-                                  child: Column(
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 11,),
+
+                        Text("Expense List", style: TextStyle(color: Colors
+                            .black, fontSize: 18, fontWeight: FontWeight
+                            .bold),),
+                        SizedBox(height: 16,),
+
+                        Column(
+                          children: allFilteredExpenses.map((filterData) {
+
+                            return Container(
+                              padding: EdgeInsets.all(15),
+                              margin: EdgeInsets.only(bottom: 16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(11),
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 1),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            data['date'],
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                                fontFamily: 'Poppins'),
-                                          ),
-                                          Text(
-                                            data['total'],
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                                fontFamily: 'Poppins'),
-                                          ),
-                                        ],
+                                      Text(filterData.type,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontFamily: 'Poppins'),
                                       ),
-                                      Divider(thickness: 1),
-
-                                      // Expense Items List
-                                      Column(
-                                        children: List.generate(data['items'].length, (index) {
-                                          var item = data['items'][index];
-                                          return ListTile(
-                                            leading: Icon(
-                                              item['icon'],
-                                              color: Colors.blue,
-                                            ),
-                                            title: Text(
-                                              item['title'],
-                                              style: TextStyle(
-                                                  fontSize: 14, fontWeight: FontWeight.bold),
-                                            ),
-                                            subtitle: Text(item['subTitle']),
-                                            trailing: Text(
-                                              item['amount'],
-
-                                              style: TextStyle(
-                                                fontSize: 14, fontWeight: FontWeight.bold,),
-                                            ),
-                                          );
-                                        }),
+                                      Text(
+                                        '\$${filterData.totalAmt
+                                            .toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontFamily: 'Poppins'),
                                       ),
                                     ],
                                   ),
-                                );
-                              }).toList(),
-                            )
+                                  Divider(thickness: 1),
 
-
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-
-                  return Container();
+                                  // Expense Items List
 
 
 
-                }
-                ),
+                                  Column(
+                                    children: filterData.mExpenses.map((ex){
+                                     return ListTile(
+                                        leading: Text(ex.eCatId),
+
+
+                                        title: Text(ex.eTitle,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(ex.eDesc),
+                                        trailing: Text("${ex.eAmt}"
+                                          ,
+
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,),
+                                        ),
+                                      );
+
+                                    }).toList(),
+                                  ),
+
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        )
+
+
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return Container();
+            }
         ),
+      ),
     );
   }
-  void filterExpenseByType({required List<ExpenseModel> allExpenses}){
 
-    List<String> uniqueDates=[];
+  void filterExpenseByType({required List<ExpenseModel> allExpenses}) {
+    allFilteredExpenses.clear();
+    List<String> uniqueDates = [];
 
     ///data wise
-    for(ExpenseModel eachExp in allExpenses){
-      String date= df.format(DateTime.fromMicrosecondsSinceEpoch(int.parse(eachExp.eCreatedAt)));
-       if(!uniqueDates.contains(date)){
+    for (ExpenseModel eachExp in allExpenses) {
+      String date = df.format(
+          DateTime.fromMicrosecondsSinceEpoch(int.parse(eachExp.eCreatedAt)));
+      if (!uniqueDates.contains(date)) {
         uniqueDates.add(date);
       }
     }
     print(uniqueDates);
-    for(String eachDate in uniqueDates){
-      num eachDateTotalAmt=0.0;
-      List<ExpenseModel> eachDateExpenses=[];
-      for(ExpenseModel eachExp in allExpenses) {
+    for (String eachDate in uniqueDates) {
+      num eachDateTotalAmt = 0.0;
+      List<ExpenseModel> eachDateExpenses = [];
+      for (ExpenseModel eachExp in allExpenses) {
         String date = df.format(
             DateTime.fromMicrosecondsSinceEpoch(int.parse(eachExp.eCreatedAt)));
 
 
-        if(eachDate==date){
+        if (eachDate == date) {
           eachDateExpenses.add(eachExp);
-          if(eachExp.eType=='Debit'){
-            eachDateTotalAmt -=eachExp.eAmt;
-
-          }else{
+          if (eachExp.eType == 'Debit') {
+            eachDateTotalAmt -= eachExp.eAmt;
+          } else {
             eachDateTotalAmt += eachExp.eAmt;
           }
-
         }
       }
 
@@ -301,8 +316,5 @@ class _NavHomePageState extends State<NavHomePage> {
     }
 
     print(allFilteredExpenses[0].mExpenses[0].eAmt);
-    
-
-
   }
 }
