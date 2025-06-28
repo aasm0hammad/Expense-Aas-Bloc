@@ -1,12 +1,13 @@
 import 'package:ass_expense/ui/BottomNavigationBar_ui/Nav_Statics.dart';
 import 'package:ass_expense/ui/BottomNavigationBar_ui/nav_home.dart';
+import 'package:ass_expense/ui/BottomNavigationBar_ui/nav_profile.dart';
 import 'package:ass_expense/ui/add_expense.dart';
 import 'package:ass_expense/ui/login_signup/login.dart';
 
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class HomePageState extends State<HomePage> {
     NavStaticsPage(),
     NavHomePage(),
     NavHomePage(),
-    Login(),
+    NavProfilePage(),
 
   ];
   int selectedIndex=0;
@@ -83,15 +84,6 @@ class HomePageState extends State<HomePage> {
   }
 }
 
-class NavProfilePage  extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: Text("nsjjnssnmsncmcnsnjscnscn"),
-    );
-  }
-}
 
 
 

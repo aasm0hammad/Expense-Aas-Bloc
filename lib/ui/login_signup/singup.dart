@@ -36,6 +36,7 @@ class _SignupState extends State<Signup> {
       body: Form(
         key: formKey,
         child: Container(
+
           padding: const EdgeInsets.only(top: 50, left: 16, right: 16),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -166,7 +167,7 @@ class _SignupState extends State<Signup> {
                   }
                   if (state is RegisterSuccessState) {
                     isLoading = false;
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_LOGIN);
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Register Successful...")));
                   }
@@ -248,7 +249,7 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  Widget user(String s, Icon preIcon, controller, bool obscureText,
+  static Widget user(String s, Icon preIcon, controller, bool obscureText,
       {Widget? suffixIcon, String? Function(String?)? validator}) {
     return TextFormField(
       validator: validator,

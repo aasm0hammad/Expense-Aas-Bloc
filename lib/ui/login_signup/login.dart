@@ -40,114 +40,121 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body:Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors:[Color(0xff6674D3), Color(0xffE78BBC),])),
+        child:  Padding(
           padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
           child: Column(
             children: [
-          Center(
-          child: Text(
-          "WELCOME BACK",
-            style: TextStyle(fontFamily: "Poppins", fontSize: 25),
-          )),
-      Text(
-        "Enter Your Credential to login ",
-        style: TextStyle(fontSize: 11, color: Colors.black),
-      ),
-      SizedBox(
-        height: 120,
-      ),
-      user("Email or Phone Number", Icon(Icons.person), loginController),
-      SizedBox(
-        height: 20,
-      ),
-      user("password", Icon(Icons.password), passController,),
-      SizedBox(
-        height: 100,
-      ),
-      BlocListener<LoginBloc,LoginState>(
-          listener: (context, state) {
-            if(state is LoginLoadingState){
-              isLoading=true;
-              setState(() {
+              Center(
+                  child: Text(
+                    "WELCOME BACK",
+                    style: TextStyle(fontFamily: "Poppins", fontSize: 25),
+                  )),
+              Text(
+                "Enter Your Credential to login ",
+                style: TextStyle(fontSize: 11, color: Colors.black),
+              ),
+              SizedBox(
+                height: 120,
+              ),
+              user("Email or Phone Number", Icon(Icons.person), loginController),
+              SizedBox(
+                height: 20,
+              ),
+              user("password", Icon(Icons.password), passController,),
+              SizedBox(
+                height: 100,
+              ),
+              BlocListener<LoginBloc,LoginState>(
+                listener: (context, state) {
+                  if(state is LoginLoadingState){
+                    isLoading=true;
+                    setState(() {
 
-              });
+                    });
 
-            }
-            if (state is LoginFailureState) {
-              isLoading=false;
-              setState(() {
-                
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("data")));
-            }
-            if (state is LoginSuccessState) {
-              isLoading=false;
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Login Successful")));
-            }
-          },
-          child: ElevatedButton(
-          onPressed: () {
-            String loginInput= loginController.text;
-            String passInput=passController.text;
+                  }
+                  if (state is LoginFailureState) {
+                    isLoading=false;
+                    setState(() {
 
-            String? email;
-            String? mobNo;
-            String pass;
-            bool isEmail=true;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("data")));
+                  }
+                  if (state is LoginSuccessState) {
+                    isLoading=false;
+                    Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_HOME);
+                     ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Login Successful")));
+                  }
+                },
+                child: ElevatedButton(
+                  onPressed: () {
+                    String loginInput= loginController.text;
+                    String passInput=passController.text;
 
-            if(isEmailRegExp(loginInput)){
-              email=loginInput;
-              isEmail=true;
-            }else if(isMobNoRegExp(loginInput)){
+                    String? email;
+                    String? mobNo;
+                    String pass;
+                    bool isEmail=true;
 
-              mobNo=loginInput;
-              isEmail=false;
+                    if(isEmailRegExp(loginInput)){
+                      email=loginInput;
+                      isEmail=true;
+                    }else if(isMobNoRegExp(loginInput)){
+
+                      mobNo=loginInput;
+                      isEmail=false;
 
 
-            }else{
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid email or phone number")));
-              return;
-            }
-            if(isPass(passInput)){
-              pass=passInput;
-            }else{
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid password")));
-              return;
-            }
-       context.read<LoginBloc>().add(AuthenticateUserEvent(email:email,mobNo:mobNo,pass: passController.text,isEmail: isEmail));
-      },
-      child: Text("Login"),
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.pinkAccent,
-          foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 12)),
-    ),
-    ),
-    SizedBox(
-    height:80,
-    ),
-    Text(
-    "Forget password?",
-    style: TextStyle(color: Colors.pinkAccent),
-    ),
-    SizedBox(
-    height: 30,
-    ),
-    GestureDetector(
-    onTap: (){
-    Navigator.pushNamed(context, AppRoutes.ROUTE_SIGNUP);
-    },
-    child: Text.rich(TextSpan(text: "Don't have an account? ", children: [
-    TextSpan(
-    text: "Signn Up", style: TextStyle(color: Colors.pinkAccent))
-    ])),
-    )
-    ],
-    ),
-    ),
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid email or phone number")));
+                      return;
+                    }
+                    if(isPass(passInput)){
+                      pass=passInput;
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid password")));
+                      return;
+                    }
+                    context.read<LoginBloc>().add(AuthenticateUserEvent(email:email,mobNo:mobNo,pass: passController.text,isEmail: isEmail));
+                  },
+                  child: Text("Login"),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pinkAccent,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 100, vertical: 12)),
+                ),
+              ),
+              SizedBox(
+                height:80,
+              ),
+              Text(
+                "Forget password?",
+                style: TextStyle(color: Colors.pinkAccent),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, AppRoutes.ROUTE_SIGNUP);
+                },
+                child: Text.rich(TextSpan(text: "Don't have an account? ", children: [
+                  TextSpan(
+                      text: "Signn Up", style: TextStyle(color: Colors.pinkAccent))
+                ])),
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 

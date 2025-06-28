@@ -142,4 +142,19 @@ class DbHelper {
 
   }
 
+  Future<List<UserModel>> fetchUserProfile()async{
+    Database db=await getDB();
+
+    List<Map<String,dynamic>> mUser= await db.query(TABLE_USERS);
+    List<UserModel> allUser= [];
+    for(Map<String,dynamic> eachUser in mUser){
+      allUser.add(UserModel.fromMap(eachUser));
+    }
+    return allUser;
+
+  }
+
+
+
+
 }

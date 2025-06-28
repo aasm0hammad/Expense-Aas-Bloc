@@ -41,6 +41,12 @@ dependencies:
   flutter_bloc: ^9.1.0
   shared_preferences: ^2.5.3
   intl: ^0.20.2
+  fl_chart: ^0.71.0
+  flutter_launcher_icons: ^0.13.1
+flutter_icons:
+    android: true
+    ios: true
+    image_path: "assets/images/logo.png"
 
 dev_dependencies:
   flutter_test:

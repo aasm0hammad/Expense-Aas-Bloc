@@ -9,4 +9,16 @@ class AddExpenseEvent extends ExpenseEvent{
 
 }
 
-class GetInitialExpenseEvent extends ExpenseEvent{}
+/*class FilterExpenseByTypeEvent extends ExpenseEvent{
+  List<ExpenseModel>  allExpenses;
+  var filterType;
+  FilterExpenseByTypeEvent({required this.allExpenses,required this.filterType});
+
+}*/
+
+class GetInitialExpenseEvent extends ExpenseEvent{
+int type;
+GetInitialExpenseEvent({this.type=2});
+
+
+}
